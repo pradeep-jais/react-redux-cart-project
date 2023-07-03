@@ -1,24 +1,40 @@
 import CartContainer from './reduxCartProject/components/CartContainer';
 import Navbar from './reduxCartProject/components/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { calculateTotal } from './reduxCartProject/features/cart/cartSlice';
+import {
+  calculateTotal,
+  getCartItems,
+} from './reduxCartProject/features/cart/cartSlice';
 import { useEffect } from 'react';
+import Modal from './reduxCartProject/components/Modal';
 
 function App() {
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((store) => store.cart);
+  const { cartItems, isLoading } = useSelector((store) => store.cart);
 
+  // Open or close Modal
+  const { isModalOpen } = useSelector((store) => store.modal);
   // calculate total will update cart total and total price on Navbar and Cart component respectively
 
   useEffect(() => {
     // console.log('render');
     dispatch(calculateTotal());
-  }, [cartItems]);
+  }, [cartItems, dispatch]);
 
+  useEffect(() => {
+    dispatch(getCartItems());
+  }, [dispatch]);
   return (
     <main>
+      {isModalOpen && <Modal />}
       <Navbar />
-      <CartContainer />
+      {isLoading ? (
+        <div className="loading">
+          <h1>Loading...</h1>
+        </div>
+      ) : (
+        <CartContainer />
+      )}
     </main>
   );
 }
