@@ -30,7 +30,7 @@ const CartContainer = () => {
         <hr />
         <div className="cart-total">
           <h4>
-            total <span>${totalPrice}</span>
+            total <span>${totalPrice.toFixed(2)}</span>
           </h4>
         </div>
         <button

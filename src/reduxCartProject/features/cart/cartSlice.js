@@ -38,12 +38,27 @@ const cartSlice = createSlice({
         return item;
       });
     },
+    calculateTotal: (state) => {
+      let totalAmount = 0;
+      let totalPrice = 0;
+      state.cartItems.forEach((item) => {
+        totalAmount = totalAmount + item.amount;
+        totalPrice = totalPrice + item.price * item.amount;
+      });
+      state.amount = totalAmount;
+      state.totalPrice = totalPrice;
+    },
   },
 });
 
 // console.log(cartSlice);
 
-export const { clearCart, removeItem, increaseAmount, decreaseAmount } =
-  cartSlice.actions;
+export const {
+  clearCart,
+  removeItem,
+  increaseAmount,
+  decreaseAmount,
+  calculateTotal,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
