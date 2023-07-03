@@ -6,13 +6,14 @@ import { useEffect } from 'react';
 
 function App() {
   const dispatch = useDispatch();
-  const cartState = useSelector((store) => store.cart);
+  const { cartItems } = useSelector((store) => store.cart);
 
   // calculate total will update cart total and total price on Navbar and Cart component respectively
 
   useEffect(() => {
+    // console.log('render');
     dispatch(calculateTotal());
-  }, [cartState]);
+  }, [cartItems]);
 
   return (
     <main>
