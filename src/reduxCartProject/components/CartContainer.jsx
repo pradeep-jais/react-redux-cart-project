@@ -1,17 +1,28 @@
 import CartItem from './CartItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../features/modal/modalSlice';
+import { getCartItems } from '../features/cart/cartSlice';
+
 const CartContainer = () => {
   const { cartItems, totalPrice, amount } = useSelector((store) => store.cart);
   const dispatch = useDispatch();
 
   if (amount < 1) {
     return (
-      <section className="cart">
+      <section className="cart" style={{ textAlign: 'center' }}>
         <header>
           <h2>your bag</h2>
           <h4 className="empty-cart">is currently empty</h4>
         </header>
+        <button
+          className="btn"
+          style={{ marginTop: '2rem' }}
+          onClick={() => {
+            dispatch(getCartItems());
+          }}
+        >
+          rest cart
+        </button>
       </section>
     );
   }
