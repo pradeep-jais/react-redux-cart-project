@@ -10,7 +10,7 @@ import Modal from './reduxCartProject/components/Modal';
 
 function App() {
   const dispatch = useDispatch();
-  const { cartItems, isLoading } = useSelector((store) => store.cart);
+  const { cartItems, isLoading, isError } = useSelector((store) => store.cart);
 
   // Open or close Modal
   const { isModalOpen } = useSelector((store) => store.modal);
@@ -22,8 +22,17 @@ function App() {
   }, [cartItems, dispatch]);
 
   useEffect(() => {
-    dispatch(getCartItems());
-  }, [dispatch]);
+    dispatch(getCartItems('pradeep'));
+  }, []);
+
+  if (isError) {
+    return (
+      <div className="error" style={{ textAlign: 'center', margin: '5rem 0' }}>
+        <h1>Ops</h1>
+        <h3>Something went wrong!</h3>
+      </div>
+    );
+  }
   return (
     <main>
       {isModalOpen && <Modal />}
