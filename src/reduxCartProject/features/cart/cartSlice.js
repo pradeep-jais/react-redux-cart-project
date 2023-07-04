@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Data url
-const url = 'https://course-api.com/react-useReducer-cart-project';
+const url = 'https://course-api.com/react-useReducer-cart-projects';
 
 const initialState = {
   cartItems: [],
@@ -11,15 +11,19 @@ const initialState = {
 };
 
 // Handling Async operation using Redux
-export const getCartItems = createAsyncThunk('cart/getCartItems', () => {
-  return fetch(url)
-    .then((response) => {
-      const data = response.json();
+export const getCartItems = createAsyncThunk('cart/getCartItems', async () => {
+  try {
+    const response = await fetch(url);
+    if (response.ok && response.status <= 200) {
+      const data = await response.json();
+      // console.log(data);
       return data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    } else {
+      throw new Error('Something went wrong');
+    }
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const cartSlice = createSlice({
@@ -66,13 +70,17 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getCartItems.pending, (state) => {
+        console.log('pending');
         state.isLoading = true;
       })
       .addCase(getCartItems.fulfilled, (state, action) => {
+        console.log('fulfilled');
         state.isLoading = false;
         state.cartItems = action.payload;
       })
       .addCase(getCartItems.rejected, (state) => {
+        console.log('rejected');
+
         state.isLoading = true;
       });
   },
