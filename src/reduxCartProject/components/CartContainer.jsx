@@ -21,7 +21,7 @@ const CartContainer = () => {
             dispatch(getCartItems());
           }}
         >
-          rest cart
+          reset cart
         </button>
       </section>
     );
